@@ -9,10 +9,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="SADK TRADER">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="/Sadk-trader/manifest.json">
-<link rel="apple-touch-icon" href="/Sadk-trader/icon-180.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/Sadk-trader/icon-192.png">
-<link rel="shortcut icon" href="/Sadk-trader/favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
 
 <!-- Firebase -->
@@ -862,7 +862,7 @@ function renderCalendar(){
 // ── SERVICE WORKER ──
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/Sadk-trader/sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then(r=>console.log('SW OK'))
       .catch(e=>console.log('SW fail',e));
   });
