@@ -613,7 +613,7 @@ async function login(){
   if(decodeURIComponent(escape(atob(userData.hash)))!==pass)return showErr('login-error','Incorrect password');
 
   currentUser={username:user, name:userData.name};
-  localStorage.setItem('tl_session',JSON.stringify(currentUser));
+  // لا نحفظ الجلسة — يجب تسجيل الدخول في كل مرة
   await enterApp();
 }
 
@@ -1157,19 +1157,8 @@ async function init(){
   overlay.style.transition = 'opacity .5s ease';
   overlay.style.opacity = '0';
   setTimeout(() => overlay.style.display='none', 500);
-  const s=localStorage.getItem('tl_session');
-  if(s){
-    try{
-      currentUser=JSON.parse(s);
-      document.getElementById('auth-screen').style.display='none';
-      await enterApp();
-    }catch{
-      localStorage.removeItem('tl_session');
-      document.getElementById('auth-screen').style.display='flex';
-    }
-  } else {
-    document.getElementById('auth-screen').style.display='flex';
-  }
+  // دائماً يطلب تسجيل الدخول عند فتح التطبيق
+  document.getElementById('auth-screen').style.display='flex';
 }
 </script>
 </body>
