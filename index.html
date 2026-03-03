@@ -816,9 +816,11 @@ function clearFormError(){
 }
 
 async function deleteTrade(id){
-  trades=trades.filter(t=>t.id!==id);
-  await saveTrades();
-  updateDashboard();
+  showConfirm('هل تريد حذف هذه الصفقة؟ لا يمكن التراجع عن هذا الإجراء.', async()=>{
+    trades=trades.filter(t=>t.id!==id);
+    await saveTrades();
+    updateDashboard();
+  });
 }
 
 function fmt(v){return(v>=0?'+ $':'- $')+Math.round(Math.abs(v)).toLocaleString();}
