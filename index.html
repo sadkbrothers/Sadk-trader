@@ -698,7 +698,7 @@ function logout(){
 }
 
 // ── ACCOUNTS ──
-function openAccModal(){renderAccList();document.getElementById('acc-modal').style.display='block';}
+function openAccModal(){renderAccList();document.getElementById('acc-modal').style.display='block';history.pushState({page:'accounts'}, '', '');}
 function closeAccModal(){document.getElementById('acc-modal').style.display='none';}
 function closeAccModalOutside(e){if(e.target===e.currentTarget)closeAccModal();}
 
@@ -825,6 +825,7 @@ function showMain(){
   document.getElementById('nav-home').classList.add('active');
   document.getElementById('nav-add').classList.remove('active');
   document.getElementById('nav-accounts').classList.remove('active');
+  history.pushState({page:'main'}, '', '');
 }
 function showAdd(){
   document.getElementById('app-screen').style.display='none';
@@ -832,6 +833,7 @@ function showAdd(){
   document.getElementById('nav-add').classList.add('active');
   document.getElementById('nav-home').classList.remove('active');
   document.getElementById('nav-accounts').classList.remove('active');
+  history.pushState({page:'add'}, '', '');
 }
 
 // ── UPDATE ALL ──
@@ -1037,6 +1039,39 @@ async function init(){
   setTimeout(()=>overlay.style.display='none',500);
   document.getElementById('auth-screen').style.display='block';
 }
+
+// ── BACK BUTTON (Android Navigation Bar) ──
+function pushState(page){
+  history.pushState({page}, '', '');
+}
+
+window.addEventListener('popstate', e => {
+  const page = e.state?.page;
+  // إذا كنا في Add Trade → ارجع للرئيسية
+  if(document.getElementById('add-screen').style.display === 'block'){
+    showMain();
+    history.pushState({page:'main'}, '', '');
+    return;
+  }
+  // إذا كان modal الحسابات مفتوحاً → أغلقه
+  if(document.getElementById('acc-modal').style.display === 'block'){
+    closeAccModal();
+    history.pushState({page:'main'}, '', '');
+    return;
+  }
+  // إذا كان confirm modal مفتوحاً → أغلقه
+  if(document.getElementById('confirm-modal').style.display === 'flex'){
+    closeConfirm();
+    history.pushState({page:'main'}, '', '');
+    return;
+  }
+  // إذا كنا في الرئيسية → لا تخرج من التطبيق فوراً، اضغط مرتين
+  if(!page || page === 'main'){
+    if(currentUser){
+      history.pushState({page:'main'}, '', '');
+    }
+  }
+});
 
 // Service Worker
 if('serviceWorker' in navigator){
